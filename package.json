@@ -1,0 +1,29 @@
+{
+  "name": "@HarbourProtocol/stakebank",
+  "version": "0.0.1",
+  "description": "Simple reusable staking method",
+  "author": "Harbour",
+  "license": "GPL-3.0",
+  "scripts": {
+    "report": "truffle test --report",
+    "lint": "solium --dir ./contracts"
+  },
+  "files": [
+    "contracts/",
+    "truffle.js"
+  ],
+  "devDependencies": {
+    "solium": "^1.0.4",
+    "truffle": "^4.0.0",
+    "truffle-config": "^1.0.3",
+    "truffle-expect": "0.0.3",
+    "truffle-hdwallet-provider": "0.0.3",
+    "eth-gas-reporter": "^0.0.12"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts"
+  ]
+}
