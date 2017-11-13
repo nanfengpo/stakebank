@@ -1,6 +1,6 @@
 # Stake Bank
 
-[![Build Status](https://travis-ci.org/HarbourProtocol/stakebank.svg?branch=development)] [![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
+[![Build Status](https://travis-ci.org/HarbourProtocol/stakebank.svg?branch=development)](https://travis-ci.org/HarbourProtocol/stakebank) [![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 
 Simple method to allow for staking while keeping a lightweight ERC20 interface.
 
