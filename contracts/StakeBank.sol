@@ -14,7 +14,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
 
     ERC20 public token;
 
-    mapping (address => Stake[]) checkpoints;
+    mapping (address => Stake[]) stakesFor;
 
     /// @param _token Token that can be staked.
     function StakeBank(ERC20 _token) public {
@@ -41,7 +41,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
     /// @param addr Address to check.
     /// @return amount of tokens staked.
     function totalStaked(address addr) public view returns (uint256) {
-        Stake[] storage stakes = checkpoints[addr];
+        Stake[] storage stakes = stakesFor[addr];
 
         if (stakes.length == 0) {
             return 0;
@@ -54,7 +54,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
     /// @param addr Address to check.
     /// @return block number of last stake.
     function lastStaked(address addr) public view returns (uint256) {
-        Stake[] storage stakes = checkpoints[addr];
+        Stake[] storage stakes = stakesFor[addr];
 
         if (stakes.length == 0) {
             return 0;
@@ -72,7 +72,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
             return totalStaked(addr);
         }
 
-        Stake[] storage stakes = checkpoints[addr];
+        Stake[] storage stakes = stakesFor[addr];
         for (uint i = (stakes.length - 1); i >= 0; i--) {
             if (stakes[i].blockNumber <= blockNumber) {
                 return stakes[i].amount;
@@ -83,6 +83,6 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
     }
 
     function addStake(address addr, uint256 blockNumber, uint256 amount) internal {
-        checkpoints[addr].push(Stake({blockNumber: blockNumber, amount: amount}));
+        stakesFor[addr].push(Stake({blockNumber: blockNumber, amount: amount}));
     }
 }
