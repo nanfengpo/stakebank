@@ -51,13 +51,25 @@ contract('StakeBank', function (accounts) {
             firstBlock = web3.eth.blockNumber;
             secondBlock = firstBlock + 5;
 
-            await bank.stake(initialBalance / 2);
+            let result = await bank.stake(initialBalance / 2);
+            firstBlock = result['receipt']['blockNumber'];
+
             await advanceToBlock(secondBlock);
-            await bank.stake(initialBalance / 2);
+
+            result = await bank.stake(initialBalance / 2);
+            secondBlock = result['receipt']['blockNumber'];
         });
 
         it('should return full staked value when calling totalStaked', async () => {
             assert.equal(await bank.totalStaked.call(accounts[0]), initialBalance);
+        });
+
+        it('should return correct amount staked at block', async () => {
+            assert.equal(await bank.totalStakedAt.call(accounts[0], firstBlock), initialBalance / 2);
+        });
+
+        it('should return correct block when calling lastStaked', async () => {
+            assert.equal(await bank.lastStaked.call(accounts[0]), secondBlock);
         });
     });
 });

@@ -9,7 +9,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
 
     struct Stake {
         uint256 blockNumber;
-        uint256 value;
+        uint256 amount;
     }
 
     ERC20 public token;
@@ -39,7 +39,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
             return 0;
         }
 
-        return stakes[stakes.length-1].value;
+        return stakes[stakes.length-1].amount;
     }
 
     function lastStaked(address addr) public view returns (uint256) {
@@ -60,7 +60,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
         Stake[] storage stakes = checkpoints[addr];
         for (uint i = (stakes.length - 1); i >= 0; i--) {
             if (stakes[i].blockNumber <= blockNumber) {
-                return stakes[i].value;
+                return stakes[i].amount;
             }
         }
 
@@ -68,6 +68,6 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
     }
 
     function addStake(address addr, uint256 blockNumber, uint256 amount) internal {
-        checkpoints[addr].push(Stake({blockNumber: blockNumber, value: amount}));
+        checkpoints[addr].push(Stake({blockNumber: blockNumber, amount: amount}));
     }
 }
