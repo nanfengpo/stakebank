@@ -3,6 +3,7 @@
   "rules": {
     "indentation": ["error", 4],
     "quotes": ["error", "double"],
-    "arg-overflow": "off"
+    "arg-overflow": "off",
+    "blank-lines": "off"
   }
 }
