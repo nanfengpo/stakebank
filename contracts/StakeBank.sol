@@ -16,15 +16,20 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
 
     mapping (address => Stake[]) checkpoints;
 
-    function StakeBank(ERC20 _token) {
+    /// @param _token Token that can be staked.
+    function StakeBank(ERC20 _token) public {
         token = _token;
     }
 
+    /// @notice Stakes a certain amount of tokens.
+    /// @param amount Amount of tokens to stake.
     function stake(uint256 amount) public onlyWhenUnlocked {
         addStake(msg.sender, block.number, totalStaked(msg.sender) + amount);
         require(token.transferFrom(msg.sender, address(this), amount));
     }
 
+    /// @notice Unstakes a certain amount of tokens.
+    /// @param amount Amount of tokens to unstake.
     function unstake(uint256 amount) public {
         uint256 total = totalStaked(msg.sender);
         require(totalStaked(msg.sender) >= amount);
@@ -32,6 +37,9 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
         require(token.transfer(msg.sender, amount));
     }
 
+    /// @notice Returns total tokens staked for address.
+    /// @param addr Address to check.
+    /// @return amount of tokens staked.
     function totalStaked(address addr) public view returns (uint256) {
         Stake[] storage stakes = checkpoints[addr];
 
@@ -42,6 +50,9 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
         return stakes[stakes.length-1].amount;
     }
 
+    /// @notice Returns last block address staked at.
+    /// @param addr Address to check.
+    /// @return block number of last stake.
     function lastStaked(address addr) public view returns (uint256) {
         Stake[] storage stakes = checkpoints[addr];
 
@@ -52,6 +63,10 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
         return stakes[stakes.length-1].blockNumber;
     }
 
+    /// @notice Returns total amount of tokens staked at block for address.
+    /// @param addr Address to check.
+    /// @param blockNumber Block number to check.
+    /// @return amount of tokens staked.
     function totalStakedAt(address addr, uint256 blockNumber) public view returns (uint256) {
         if (blockNumber >= lastStaked(addr)) {
             return totalStaked(addr);
