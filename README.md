@@ -1,7 +1,8 @@
 # Stake Bank
 
-Simple method to allow for staking while keeping a lightweight ERC20 interface. Edit
-Add topics
+Simple method to allow for staking while keeping a lightweight ERC20 interface.
+
+*This code has not yet been audited, therefore it is not suggested to be used in production.*
 
 ## Built With
 * [Truffle](https://github.com/trufflesuite/truffle) - Ethereum development environment 
