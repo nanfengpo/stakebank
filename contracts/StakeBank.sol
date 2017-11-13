@@ -20,45 +20,54 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
         token = _token;
     }
 
-    function stake(uint256 amount) external onlyWhenUnlocked {
-        addStake(msg.sender, block.number, amount);
+    function stake(uint256 amount) public onlyWhenUnlocked {
+        addStake(msg.sender, block.number, totalStaked(msg.sender) + amount);
         require(token.transferFrom(msg.sender, address(this), amount));
     }
 
-    function unstake(uint256 amount) external {
+    function unstake(uint256 amount) public {
+        uint256 total = totalStaked(msg.sender);
         require(totalStaked(msg.sender) >= amount);
-        addStake(msg.sender, block.number, amount);
+        addStake(msg.sender, block.number, total - amount);
         require(token.transfer(msg.sender, amount));
     }
 
-    function totalStaked(address addr) external view returns (uint256) {
-        Stake[] stakes = checkpoints[addr];
+    function totalStaked(address addr) public view returns (uint256) {
+        Stake[] storage stakes = checkpoints[addr];
+
+        if (stakes.length == 0) {
+            return 0;
+        }
+
         return stakes[stakes.length-1].value;
     }
 
-    function lastStaked(address addr) external view returns (uint256) {
-        Stake[] stakes = checkpoints[addr];
+    function lastStaked(address addr) public view returns (uint256) {
+        Stake[] storage stakes = checkpoints[addr];
+
+        if (stakes.length == 0) {
+            return 0;
+        }
+
         return stakes[stakes.length-1].blockNumber;
     }
 
-    function totalStakedAt(address addr, uint256 blockNumber) external view returns (uint256) {
+    function totalStakedAt(address addr, uint256 blockNumber) public view returns (uint256) {
         if (blockNumber >= lastStaked(addr)) {
             return totalStaked(addr);
         }
 
-        Stake[] stakes = checkpoints[addr];
-        for (uint i = stakes.length - 1; i >= 0; i--) {
-            if (stakes[i].blockNumber > blockNumber) {
-                continue;
+        Stake[] storage stakes = checkpoints[addr];
+        for (uint i = (stakes.length - 1); i >= 0; i--) {
+            if (stakes[i].blockNumber <= blockNumber) {
+                return stakes[i].value;
             }
-
-            return stakes[i].value;
         }
 
         return 0;
     }
 
     function addStake(address addr, uint256 blockNumber, uint256 amount) internal {
-        checkpoints.push(Stake({blockNumber: blockNumber, value: amount}));
+        checkpoints[addr].push(Stake({blockNumber: blockNumber, value: amount}));
     }
 }
