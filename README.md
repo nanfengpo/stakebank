@@ -1,6 +1,6 @@
 # Stake Bank
 
-[![Build Status](https://travis-ci.org/HarbourProtocol/stakebank.svg?branch=development)](https://travis-ci.org/HarbourProtocol/stakebank) [![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
+[![Build Status](https://travis-ci.org/HarbourProject/stakebank.svg?branch=development)](https://travis-ci.org/HarbourProtocol/stakebank) [![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 
 Simple method to allow for staking while keeping a lightweight ERC20 interface.
 
@@ -13,11 +13,11 @@ Simple method to allow for staking while keeping a lightweight ERC20 interface.
 
 * **Dean Eigenmann** - [decanus](https://github.com/decanus)
 
-See also the list of [contributors](https://github.com/HarbourProtocol/stakebank/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/HarbourProject/stakebank/contributors) who participated in this project.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/HarbourProtocol/stakebank/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/HarbourProject/stakebank/tags).
 
 ## License
 
