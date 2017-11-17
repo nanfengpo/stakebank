@@ -18,6 +18,7 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
 
     /// @param _token Token that can be staked.
     function StakeBank(ERC20 _token) public {
+        require(address(_token) != 0x0);
         token = _token;
     }
 
