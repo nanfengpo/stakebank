@@ -15,7 +15,7 @@ contract Token {
     }
 
     function transferFrom(address from, address to, uint value) public returns (bool) {
-        balances[_from] = balances[_from] - value;
+        balances[from] = balances[from] - value;
         balances[to] = balances[to] + value;
         return true;
     }
