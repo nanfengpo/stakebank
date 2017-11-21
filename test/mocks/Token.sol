@@ -3,18 +3,18 @@ pragma solidity 0.4.18;
 contract Token {
 
     mapping (address => uint) balances;
-    
-    function balanceOf(address owner) returns (uint256) {
+
+    function balanceOf(address owner) public view returns (uint) {
         return balances[owner];
     }
 
-    function transfer(address to, uint value) returns (bool) {
+    function transfer(address to, uint value) public returns (bool) {
         balances[msg.sender] = balances[msg.sender] - value;
         balances[to] = balances[to] + value;
         return true;
     }
 
-    function transferFrom(address _from, address to, uint value) returns (bool) {
+    function transferFrom(address from, address to, uint value) public returns (bool) {
         balances[_from] = balances[_from] - value;
         balances[to] = balances[to] + value;
         return true;

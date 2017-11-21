@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
  - Installation guide
  - Testing guide
+ 
+### Updated
+ - Updated mock contract ```Token.sol```
 
 ### Removed
  - Truffle migrations
