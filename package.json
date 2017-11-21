@@ -3,6 +3,9 @@
   "version": "0.1.3",
   "description": "Simple reusable staking method",
   "author": "Harbour",
+  "contributors": [
+    "Dean Eigenmann <dean@tokenate.io>"
+  ],
   "license": "GPL-3.0",
   "scripts": {
     "report": "truffle test --report",
@@ -12,6 +15,10 @@
     "contracts/",
     "truffle.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HarbourProject/stakebank.git"
+  },
   "devDependencies": {
     "solium": "^1.0.4",
     "truffle": "^4.0.0",
