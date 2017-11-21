@@ -1,27 +1,6 @@
 const StakeBank = artifacts.require('StakeBank.sol');
 const TokenMock = artifacts.require('./mocks/Token.sol');
-
-function advanceBlock() {
-    return new Promise((resolve, reject) => {
-        web3.currentProvider.sendAsync({
-            jsonrpc: '2.0',
-            method: 'evm_mine',
-            id: Date.now(),
-        }, (err, res) => {
-            return err ? reject(err) : resolve(res)
-        })
-    })
-}
-
-async function advanceToBlock(number) {
-    if (web3.eth.blockNumber > number) {
-        throw Error(`block number ${number} is in the past (current is ${web3.eth.blockNumber})`)
-    }
-
-    while (web3.eth.blockNumber < number) {
-        await advanceBlock()
-    }
-}
+const utils = require('./helpers/Utils.js');
 
 contract('StakeBank', function (accounts) {
 
@@ -61,7 +40,7 @@ contract('StakeBank', function (accounts) {
             let result = await bank.stake(initialBalance / 2);
             firstBlock = result['receipt']['blockNumber'];
 
-            await advanceToBlock(secondBlock);
+            await utils.advanceToBlock(secondBlock);
 
             result = await bank.stake(initialBalance / 2);
             secondBlock = result['receipt']['blockNumber'];
