@@ -23,9 +23,9 @@ contract('StakeBank', function (accounts) {
 
     it('should allow user to unstake tokens', async () => {
         await bank.stake(initialBalance);
-        assert.equal(await bank.totalStaked.call(accounts[0]), initialBalance);
+        assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance);
         await bank.unstake(initialBalance / 2);
-        assert.equal(await bank.totalStaked.call(accounts[0]), initialBalance / 2);
+        assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance / 2);
     });
 
     context('staking constants', async () => {
@@ -47,15 +47,27 @@ contract('StakeBank', function (accounts) {
         });
 
         it('should return full staked value when calling totalStaked', async () => {
-            assert.equal(await bank.totalStaked.call(accounts[0]), initialBalance);
+            assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance);
         });
 
         it('should return correct amount staked at block', async () => {
-            assert.equal(await bank.totalStakedAt.call(accounts[0], firstBlock), initialBalance / 2);
+            assert.equal(await bank.totalStakedForAt.call(accounts[0], firstBlock), initialBalance / 2);
         });
 
         it('should return correct block when calling lastStaked', async () => {
-            assert.equal(await bank.lastStaked.call(accounts[0]), secondBlock);
+            assert.equal(await bank.lastStakedFor.call(accounts[0]), secondBlock);
         });
+
+        it('should return correct amount staked at block in future', async () => {
+            assert.equal(await bank.totalStakedForAt.call(accounts[0], secondBlock * 2), initialBalance);
+        });
+    });
+
+    it('should return correct total amount staked', async () => {
+        await bank.stake(initialBalance / 2, {from: accounts[0]});
+        let result = await bank.stake(initialBalance / 2, {from: accounts[1]});
+
+        let block = result['receipt']['blockNumber'];
+        assert.equal(await bank.totalStakedAt.call(block * 2), initialBalance);
     });
 });

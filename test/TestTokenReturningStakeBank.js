@@ -26,13 +26,13 @@ contract('TokenReturningStakeBank', function (accounts) {
 
     it('should allow user to unstake tokens', async () => {
         await bank.stake(initialBalance);
-        assert.equal(await bank.totalStaked.call(accounts[0]), initialBalance);
+        assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance);
         assert.equal(await returnToken.balanceOf.call(accounts[0]), initialBalance * 2);
         assert.equal(await returnToken.balanceOf.call(bank.address), 0);
 
         let amount = initialBalance / 2;
         await bank.unstake(amount);
-        assert.equal(await bank.totalStaked.call(accounts[0]), amount);
+        assert.equal(await bank.totalStakedFor.call(accounts[0]), amount);
         assert.equal(await returnToken.balanceOf.call(accounts[0]), (initialBalance * 2) - (amount / 2));
         assert.equal(await returnToken.balanceOf.call(bank.address), amount / 2);
     });
