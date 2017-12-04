@@ -24,7 +24,7 @@ contract TokenReturningStakeBank is StakeBank {
     /// @param amount Amount of tokens to stake.
     function stake(uint256 amount) public {
         super.stake(amount);
-        require(returnToken.transfer(msg.sender, amount * getRate())); // @todo safe math
+        require(returnToken.transfer(msg.sender, amount.mul(getRate())));
     }
 
     /// @notice Unstakes a certain amount of tokens.
@@ -32,10 +32,10 @@ contract TokenReturningStakeBank is StakeBank {
     function unstake(uint256 amount) public {
         super.unstake(amount);
 
-        uint256 returnAmount = amount / getRate();
-        require(returnAmount * getRate() == amount);
+        uint256 returnAmount = amount.div(getRate());
+        require(returnAmount.mul(getRate()) == amount);
 
-        require(returnToken.transferFrom(msg.sender, address(this), returnAmount)); // @todo safe math
+        require(returnToken.transferFrom(msg.sender, address(this), returnAmount));
     }
 
     /// @notice Returns conversion rate from token to returnToken. In function so it can be overridden.

@@ -4,8 +4,11 @@ import "./Lifecycle/Lockable.sol";
 import "./Ownership/Ownable.sol";
 import "./ERC20.sol";
 import "./StakeBankInterface.sol";
+import "./SafeMath.sol";
 
 contract StakeBank is StakeBankInterface, Ownable, Lockable {
+
+    using SafeMath for uint256;
 
     struct Checkpoint {
         uint256 at;
@@ -101,9 +104,9 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
         Checkpoint storage checkpoint = history[length];
 
         if (isUnstake) {
-            checkpoint.amount -= amount;
+            checkpoint.amount = checkpoint.amount.sub(amount);
         } else {
-            checkpoint.amount += amount;
+            checkpoint.amount = checkpoint.amount.add(amount);
         }
     }
 
