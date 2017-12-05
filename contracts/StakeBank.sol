@@ -121,12 +121,17 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
             return history[length-1].amount;
         }
 
-        for (uint i = (length - 1); i >= 0; i--) {
-            if (history[i].at <= blockNumber) {
-                return history[i].amount;
+        uint min = 0;
+        uint max = length-1;
+        while (max > min) {
+            uint mid = (max + min + 1) / 2;
+            if (history[mid].at <= blockNumber) {
+                min = mid;
+            } else {
+                max = mid-1;
             }
         }
 
-        return 0;
+        return checkpoints[min].value;
     }
 }
