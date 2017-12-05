@@ -132,6 +132,6 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
             }
         }
 
-        return checkpoints[min].value;
+        return history[min].amount;
     }
 }
