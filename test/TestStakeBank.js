@@ -28,6 +28,13 @@ contract('StakeBank', function (accounts) {
         assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance / 2);
     });
 
+    it('should allow user to stake for other person', async () => {
+        await bank.stakeFor(accounts[1], initialBalance);
+        assert.equal(await bank.totalStakedFor.call(accounts[1]), initialBalance);
+        await bank.unstake(initialBalance / 2, {from: accounts[1]});
+        assert.equal(await bank.totalStakedFor.call(accounts[1]), initialBalance / 2);
+    });
+
     context('staking constants', async () => {
 
         let firstBlock;
