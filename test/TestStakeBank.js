@@ -15,23 +15,23 @@ contract('StakeBank', function (accounts) {
     });
 
     it('should transfer tokens to bank when staked', async () => {
-        await bank.stake(initialBalance);
+        await bank.stake(initialBalance, '0x0');
 
         assert.equal(await token.balanceOf.call(accounts[0]), 0);
         assert.equal(await token.balanceOf.call(bank.address), initialBalance);
     });
 
     it('should allow user to unstake tokens', async () => {
-        await bank.stake(initialBalance);
+        await bank.stake(initialBalance, '0x0');
         assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance);
-        await bank.unstake(initialBalance / 2);
+        await bank.unstake(initialBalance / 2, '0x0');
         assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance / 2);
     });
 
     it('should allow user to stake for other person', async () => {
-        await bank.stakeFor(accounts[1], initialBalance);
+        await bank.stakeFor(accounts[1], initialBalance, '0x0');
         assert.equal(await bank.totalStakedFor.call(accounts[1]), initialBalance);
-        await bank.unstake(initialBalance / 2, {from: accounts[1]});
+        await bank.unstake(initialBalance / 2, '0x0', {from: accounts[1]});
         assert.equal(await bank.totalStakedFor.call(accounts[1]), initialBalance / 2);
     });
 
@@ -44,12 +44,12 @@ contract('StakeBank', function (accounts) {
             firstBlock = web3.eth.blockNumber;
             secondBlock = firstBlock + 5;
 
-            let result = await bank.stake(initialBalance / 2);
+            let result = await bank.stake(initialBalance / 2, '0x0');
             firstBlock = result['receipt']['blockNumber'];
 
             await utils.advanceToBlock(secondBlock);
 
-            result = await bank.stake(initialBalance / 2);
+            result = await bank.stake(initialBalance / 2, '0x0');
             secondBlock = result['receipt']['blockNumber'];
         });
 
@@ -71,8 +71,8 @@ contract('StakeBank', function (accounts) {
     });
 
     it('should return correct total amount staked', async () => {
-        await bank.stake(initialBalance / 2, {from: accounts[0]});
-        let result = await bank.stake(initialBalance / 2, {from: accounts[1]});
+        await bank.stake(initialBalance / 2, '0x0', {from: accounts[0]});
+        let result = await bank.stake(initialBalance / 2, '0x0', {from: accounts[1]});
 
         let block = result['receipt']['blockNumber'];
         assert.equal(await bank.totalStakedAt.call(block * 2), initialBalance);

@@ -29,32 +29,35 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
 
     /// @notice Stakes a certain amount of tokens.
     /// @param amount Amount of tokens to stake.
-    function stake(uint256 amount) public {
-        stakeFor(msg.sender, amount);
+    /// @param data Data field used for signalling in more complex staking applications.
+    function stake(uint256 amount, bytes data) public {
+        stakeFor(msg.sender, amount, data);
     }
 
     /// @notice Stakes a certain amount of tokens for another user.
     /// @param user Address of the user to stake for.
     /// @param amount Amount of tokens to stake.
-    function stakeFor(address user, uint256 amount) public onlyWhenUnlocked {
+    /// @param data Data field used for signalling in more complex staking applications.
+    function stakeFor(address user, uint256 amount, bytes data) public onlyWhenUnlocked {
         updateCheckpointAtNow(stakesFor[user], amount, false);
         updateCheckpointAtNow(stakeHistory, amount, false);
 
         require(token.transferFrom(msg.sender, address(this), amount));
 
-        Staked(user, amount, totalStakedFor(user));
+        Staked(user, amount, totalStakedFor(user), data);
     }
 
     /// @notice Unstakes a certain amount of tokens.
     /// @param amount Amount of tokens to unstake.
-    function unstake(uint256 amount) public {
+    /// @param data Data field used for signalling in more complex staking applications.
+    function unstake(uint256 amount, bytes data) public {
         require(totalStakedFor(msg.sender) >= amount);
 
         updateCheckpointAtNow(stakesFor[msg.sender], amount, true);
         updateCheckpointAtNow(stakeHistory, amount, true);
 
         require(token.transfer(msg.sender, amount));
-        Unstaked(msg.sender, amount, totalStakedFor(msg.sender));
+        Unstaked(msg.sender, amount, totalStakedFor(msg.sender), data);
     }
 
     /// @notice Returns total tokens staked for address.

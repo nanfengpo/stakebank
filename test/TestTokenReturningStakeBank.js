@@ -16,7 +16,7 @@ contract('TokenReturningStakeBank', function (accounts) {
     });
 
     it('should transfer tokens to bank when staked', async () => {
-        await bank.stake(initialBalance);
+        await bank.stake(initialBalance, '0x0');
 
         assert.equal(await token.balanceOf.call(accounts[0]), 0);
         assert.equal(await token.balanceOf.call(bank.address), initialBalance);
@@ -25,7 +25,7 @@ contract('TokenReturningStakeBank', function (accounts) {
     });
 
     it('should transfer tokens to user when staking for someone else', async () => {
-        await bank.stakeFor(accounts[1], initialBalance);
+        await bank.stakeFor(accounts[1], initialBalance, '0x0');
 
         assert.equal(await token.balanceOf.call(accounts[1]), 0);
         assert.equal(await token.balanceOf.call(bank.address), initialBalance);
@@ -34,13 +34,13 @@ contract('TokenReturningStakeBank', function (accounts) {
     });
 
     it('should allow user to unstake tokens', async () => {
-        await bank.stake(initialBalance);
+        await bank.stake(initialBalance, '0x0');
         assert.equal(await bank.totalStakedFor.call(accounts[0]), initialBalance);
         assert.equal(await returnToken.balanceOf.call(accounts[0]), initialBalance * 2);
         assert.equal(await returnToken.balanceOf.call(bank.address), 0);
 
         let amount = initialBalance / 2;
-        await bank.unstake(amount);
+        await bank.unstake(amount, '0x0');
         assert.equal(await bank.totalStakedFor.call(accounts[0]), amount);
         assert.equal(await returnToken.balanceOf.call(accounts[0]), (initialBalance * 2) - (amount / 2));
         assert.equal(await returnToken.balanceOf.call(bank.address), amount / 2);
