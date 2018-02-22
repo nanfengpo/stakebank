@@ -23,7 +23,14 @@ contract TokenReturningStakeBank is StakeBank {
     /// @notice Stakes a certain amount of tokens.
     /// @param amount Amount of tokens to stake.
     function stake(uint256 amount) public {
-        super.stake(amount);
+        stakeFor(msg.sender, amount);
+    }
+
+    /// @notice Stakes a certain amount of tokens for another user.
+    /// @param user Address of the user to stake for.
+    /// @param amount Amount of tokens to stake.
+    function stakeFor(address user, uint256 amount) public {
+        super.stakeFor(user, amount);
         require(returnToken.transfer(msg.sender, amount.mul(getRate())));
     }
 

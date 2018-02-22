@@ -29,11 +29,20 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
 
     /// @notice Stakes a certain amount of tokens.
     /// @param amount Amount of tokens to stake.
-    function stake(uint256 amount) public onlyWhenUnlocked {
-        updateCheckpointAtNow(stakesFor[msg.sender], amount, false);
+    function stake(uint256 amount) public {
+        stakeFor(msg.sender, amount);
+    }
+
+    /// @notice Stakes a certain amount of tokens for another user.
+    /// @param user Address of the user to stake for.
+    /// @param amount Amount of tokens to stake.
+    function stakeFor(address user, uint256 amount) public onlyWhenUnlocked {
+        updateCheckpointAtNow(stakesFor[user], amount, false);
         updateCheckpointAtNow(stakeHistory, amount, false);
 
         require(token.transferFrom(msg.sender, address(this), amount));
+
+        Staked(user, amount, totalStakedFor(user));
     }
 
     /// @notice Unstakes a certain amount of tokens.
@@ -45,9 +54,9 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
         updateCheckpointAtNow(stakeHistory, amount, true);
 
         require(token.transfer(msg.sender, amount));
+        Unstaked(msg.sender, amount, totalStakedFor(msg.sender));
     }
 
-    // @todo code can be optimized by adding into stakedAt function
     /// @notice Returns total tokens staked for address.
     /// @param addr Address to check.
     /// @return amount of tokens staked.
