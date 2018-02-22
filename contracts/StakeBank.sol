@@ -69,6 +69,19 @@ contract StakeBank is StakeBankInterface, Ownable, Lockable {
 
         return stakes[stakes.length-1].amount;
     }
+    
+    
+    /// @notice Returns if history related functions are implemented.
+    /// @return Bool whether history is implemented.
+    function supportsHistory() public view returns (bool) {
+        return true;
+    }
+    
+    /// @notice Returns the token address.
+    /// @return Address of token.
+    function token() public view returns (address) {
+        return token;
+    }
 
     /// @notice Returns last block address staked at.
     /// @param addr Address to check.
