@@ -6,7 +6,7 @@ import "./ERC20.sol";
 import "./StakeBankInterface.sol";
 import "./SafeMath.sol";
 
-contract StakeBank is StakeBankInterface, Ownable, Lockable {
+contract StakeBank is StakeBankInterface, Lockable {
 
     using SafeMath for uint256;
 

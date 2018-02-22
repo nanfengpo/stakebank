@@ -1,6 +1,8 @@
 pragma solidity ^0.4.18;
 
-contract Lockable {
+import "../Ownership/Ownable.sol";
+
+contract Lockable is Ownable {
 
     bool public locked;
 
@@ -9,11 +11,11 @@ contract Lockable {
         _;
     }
 
-    function lock() external {
+    function lock() external onlyOwner {
         locked = true;
     }
 
-    function unlock() external {
+    function unlock() external onlyOwner {
         locked = false;
     }
 }
