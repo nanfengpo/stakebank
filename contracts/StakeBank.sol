@@ -75,7 +75,7 @@ contract StakeBank is StakeBankInterface, Lockable {
     
     /// @notice Returns if history related functions are implemented.
     /// @return Bool whether history is implemented.
-    function supportsHistory() public view returns (bool) {
+    function supportsHistory() public pure returns (bool) {
         return true;
     }
     
