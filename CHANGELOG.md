@@ -7,13 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [unreleased]
 
-### Added
-### Removed
-
 ### Changed
  - Using SafeMath
  - Binary Search
-
+ - Extended interface
+ - Fixed locable
+ 
 ## [v0.3.0]
 
 ### Added
