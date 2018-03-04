@@ -74,7 +74,6 @@ contract StakeBank is StakeBankInterface, Lockable {
     }
 
     /// @notice Returns total tokens staked.
-    /// @param addr Address to check.
     /// @return amount of tokens staked.
     function totalStaked() public view returns (uint256) {
         return totalStakedAt(block.number);
